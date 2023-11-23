@@ -5,7 +5,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        int[] playedPosition = new int[9];
+        int[] playingRound = new int[9];
         int pickPosition;
         boolean winner = false;
         String playerSymbol = " ";
@@ -14,7 +14,7 @@ public class Main {
         fillTheGameFieldWithPositions(gameField);
         printGameField(gameField);
 
-        for (int i = 0; i < playedPosition.length; i++) {
+        for (int i = 0; i < playingRound.length; i++) {
             do {
                 while (true) {
                     try {
@@ -35,9 +35,9 @@ public class Main {
                         scanner.nextLine();
                     }
                 }
-            } while (checkTakenPosition(playedPosition, pickPosition));
+            } while (checkTakenPosition(playingRound, pickPosition));
 
-            playedPosition[i] = pickPosition;
+            playingRound[i] = pickPosition;
             addPlayerInput(gameField, pickPosition, playerSymbol);
             printGameField(gameField);
 
