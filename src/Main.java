@@ -5,8 +5,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        int[] playingRound = new int[9];
-        int pickPosition;
+        int[] playedRound = new int[9];
+        int position;
         boolean winner = false;
         String playerSymbol = " ";
 
@@ -14,31 +14,31 @@ public class Main {
         fillTheGameFieldWithPositions(gameField);
         printGameField(gameField);
 
-        for (int i = 0; i < playingRound.length; i++) {
+        for (int i = 0; i < playedRound.length; i++) {
             do {
                 while (true) {
+                    System.out.println("\n\tPick the position between 1-9: ");
                     try {
-                        System.out.println("Pick the position between 1-9: ");
                         if (i % 2 == 0) {
-                            System.out.println("Player X play: ");
-                            pickPosition = scanner.nextInt();
-                            playerSymbol = "X";
+                            System.out.println("\tPlayer X play: ");
+                            position = scanner.nextInt();
+                            playerSymbol = " X ";
 
                         } else {
-                            System.out.println("Player O play");
-                            pickPosition = scanner.nextInt();
-                            playerSymbol = "O";
+                            System.out.println("\tPlayer O play: ");
+                            position = scanner.nextInt();
+                            playerSymbol = " O ";
                         }
                         break;
                     } catch (Exception e) {
-                        System.out.println("Enter valid number between 1-9");
+                        System.out.print("\tEnter valid number!");
                         scanner.nextLine();
                     }
                 }
-            } while (checkTakenPosition(playingRound, pickPosition));
+            } while (checkTakenPosition(playedRound, position));
 
-            playingRound[i] = pickPosition;
-            addPlayerInput(gameField, pickPosition, playerSymbol);
+            playedRound[i] = position;
+            addPlayerInput(gameField, position, playerSymbol);
             printGameField(gameField);
 
             if (checkWin(gameField, playerSymbol)) {
@@ -47,13 +47,13 @@ public class Main {
             }
         }
 
-        System.out.println("\n|------------------|");
+        System.out.println("\n\t|-------------------|");
         if (!winner) {
-            System.out.println("\tIt's a draw!");
+            System.out.println("\t\tIt's a draw!");
         } else {
-            System.out.println("\tPlayer " + playerSymbol.trim() + " WIN!");
+            System.out.println("\t\tPlayer " + playerSymbol.trim() + " WIN!");
         }
-        System.out.println("|------------------|");
+        System.out.println("\t|-------------------|");
     }
 
     public static void fillTheGameFieldWithPositions(String[][] gameField) {
@@ -66,15 +66,15 @@ public class Main {
         }
     }
 
-    public static boolean checkTakenPosition(int[] positionsArray, int newPosition) {
-        for (int position : positionsArray) {
-            if (newPosition < 1 || newPosition > positionsArray.length) {
-                System.out.println("Invalid move!");
+    public static boolean checkTakenPosition(int[] playedRound, int newPosition) {
+        for (int position : playedRound) {
+            if (newPosition < 1 || newPosition > playedRound.length) {
+                System.out.println("\tInvalid move!");
                 return true;
             }
 
             if (position == newPosition) {
-                System.out.println("Position taken!");
+                System.out.print("\tPosition taken!");
                 return true;
             }
         }
@@ -85,18 +85,17 @@ public class Main {
         System.out.println();
 
         for (String[] row : gameField) {
-            System.out.print("|");
+            System.out.print("\t\t|");
             for (String column : row) {
                 System.out.print(column);
                 System.out.print("|");
             }
             System.out.println();
-            System.out.println("-------------");
+            System.out.println("\t\t-------------");
         }
     }
 
     public static void addPlayerInput(String[][] gameField, int playerPick, String playerSymbol) {
-        playerSymbol = " " + playerSymbol + " ";
         switch (playerPick) {
             case 1 -> gameField[0][0] = playerSymbol;
             case 2 -> gameField[0][1] = playerSymbol;
@@ -114,27 +113,31 @@ public class Main {
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
 
-                if (gameField[i][0].trim().equals(playerInput)
-                        && gameField[i][1].trim().equals(playerInput)
-                        && gameField[i][2].trim().equals(playerInput)) {
+                // check rows
+                if (gameField[i][0].equals(playerInput)
+                        && gameField[i][1].equals(playerInput)
+                        && gameField[i][2].equals(playerInput)) {
                     return true;
                 }
 
-                if (gameField[0][j].trim().equals(playerInput)
-                        && gameField[1][j].trim().equals(playerInput)
-                        && gameField[2][j].trim().equals(playerInput)) {
+                // check columns
+                if (gameField[0][j].equals(playerInput)
+                        && gameField[1][j].equals(playerInput)
+                        && gameField[2][j].equals(playerInput)) {
                     return true;
                 }
 
-                if (gameField[0][0].trim().equals(playerInput)
-                        && gameField[1][1].trim().equals(playerInput)
-                        && gameField[2][2].trim().equals(playerInput)) {
+                // check diagonal from left to right
+                if (gameField[0][0].equals(playerInput)
+                        && gameField[1][1].equals(playerInput)
+                        && gameField[2][2].equals(playerInput)) {
                     return true;
                 }
 
-                if (gameField[0][2].trim().equals(playerInput)
-                        && gameField[1][1].trim().equals(playerInput)
-                        && gameField[2][0].trim().equals(playerInput)) {
+                // check diagonal from right to left
+                if (gameField[0][2].equals(playerInput)
+                        && gameField[1][1].equals(playerInput)
+                        && gameField[2][0].equals(playerInput)) {
                     return true;
                 }
             }
