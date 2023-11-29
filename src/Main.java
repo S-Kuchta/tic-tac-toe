@@ -17,21 +17,21 @@ public class Main {
         for (int i = 0; i < playedRound.length; i++) {
             do {
                 while (true) {
-                    System.out.println("\n\tPick the position between 1-9: ");
+                    System.out.print("\n\tPick the position between 1-9, ");
                     try {
                         if (i % 2 == 0) {
-                            System.out.println("\tPlayer X play: ");
+                            System.out.print("\tPlayer X play: ");
                             position = scanner.nextInt();
                             playerSymbol = " X ";
 
                         } else {
-                            System.out.println("\tPlayer O play: ");
+                            System.out.print("\tPlayer O play: ");
                             position = scanner.nextInt();
                             playerSymbol = " O ";
                         }
                         break;
                     } catch (Exception e) {
-                        System.out.print("\tEnter valid number!");
+                        System.out.print("\t-> Enter valid number!");
                         scanner.nextLine();
                     }
                 }
@@ -69,12 +69,12 @@ public class Main {
     public static boolean checkTakenPosition(int[] playedRound, int newPosition) {
         for (int position : playedRound) {
             if (newPosition < 1 || newPosition > playedRound.length) {
-                System.out.println("\tInvalid move!");
+                System.out.print("\t-> Invalid move!");
                 return true;
             }
 
             if (position == newPosition) {
-                System.out.print("\tPosition taken!");
+                System.out.print("\t-> Position taken!");
                 return true;
             }
         }
@@ -110,9 +110,22 @@ public class Main {
     }
 
     public static boolean checkWin(String[][] gameField, String playerInput) {
-        for (int i = 0; i < gameField.length; i++) {
-            for (int j = 0; j < gameField[i].length; j++) {
 
+        // check diagonal from left to right
+        if (gameField[0][0].equals(playerInput)
+                && gameField[1][1].equals(playerInput)
+                && gameField[2][2].equals(playerInput)) {
+            return true;
+        }
+
+        // check diagonal from right to left
+        if (gameField[0][2].equals(playerInput)
+                && gameField[1][1].equals(playerInput)
+                && gameField[2][0].equals(playerInput)) {
+            return true;
+        }
+
+        for (int i = 0; i < gameField.length; i++) {
                 // check rows
                 if (gameField[i][0].equals(playerInput)
                         && gameField[i][1].equals(playerInput)
@@ -121,26 +134,11 @@ public class Main {
                 }
 
                 // check columns
-                if (gameField[0][j].equals(playerInput)
-                        && gameField[1][j].equals(playerInput)
-                        && gameField[2][j].equals(playerInput)) {
+                if (gameField[0][i].equals(playerInput)
+                        && gameField[1][i].equals(playerInput)
+                        && gameField[2][i].equals(playerInput)) {
                     return true;
                 }
-
-                // check diagonal from left to right
-                if (gameField[0][0].equals(playerInput)
-                        && gameField[1][1].equals(playerInput)
-                        && gameField[2][2].equals(playerInput)) {
-                    return true;
-                }
-
-                // check diagonal from right to left
-                if (gameField[0][2].equals(playerInput)
-                        && gameField[1][1].equals(playerInput)
-                        && gameField[2][0].equals(playerInput)) {
-                    return true;
-                }
-            }
         }
         return false;
     }
